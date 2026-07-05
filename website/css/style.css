@@ -1,0 +1,385 @@
+/* ===========================
+   Phoebe Design System v0.1
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
+
+:root{
+    --primary:#FFD66B;
+    --secondary:#FFB7C5;
+    --accent:#8ED8F8;
+    --background:#FFF9F2;
+    --text:#4A4A4A;
+    --white:#FFFFFF;
+    --font:'Nunito',sans-serif;
+}
+
+/* ===========================
+   Global Style
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:linear-gradient(
+        180deg,
+        #FFF9F2 0%,
+        #FFF5EA 100%
+    );
+    color:var(--text);
+    font-family:var(--font);
+    overflow-x:hidden;
+}
+
+.hero{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;    
+    text-align:center;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-content{
+    max-width:700px;
+    background:white;
+    padding:70px 60px;
+    border-radius:40px;
+        box-shadow:0 20px 60px rgba(0,0,0,.08);
+    position:relative;
+    z-index:2;
+}
+
+.hero-logo{
+    animation:floating 3s ease-in-out infinite;
+}
+
+.hero-logo img{
+    width:220px;
+    max-width:100%;
+}
+
+.hero-title{
+    font-size:52px;
+    margin-top:20px;
+}
+
+.hero-subtitle{
+    font-size:22px;
+    margin-top:20px;
+    line-height:1.6;
+}
+
+.btn-primary{
+    display:inline-block;
+    margin-top:40px;
+    padding:16px 36px;
+    background:var(--primary);
+    color:var(--text);
+    text-decoration:none;
+    border-radius:16px;
+    font-weight:bold;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(255,214,107,.35);
+}
+
+.btn-primary:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 35px rgba(255,214,107,.45);
+}
+
+@keyframes floating{
+    0%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+    100%{
+        transform:translateY(0);
+    }
+}
+
+.btn-secondary:disabled{
+    opacity:.5;
+    background:#F5F5F5;
+    border-color:#E5E5E5;
+    cursor:not-allowed;
+}
+
+/* ===========================
+   Decorative Background
+=========================== */
+
+.cloud{
+    position:absolute;
+    background:white;
+    opacity:.7;
+    border-radius:100px;
+    filter:blur(1px);
+}
+
+.cloud::before,
+.cloud::after{
+    content:"";
+    position:absolute;
+    background:white;
+    border-radius:50%;
+}
+
+.cloud1{
+    width:170px;
+    height:60px;
+    top:120px;
+    left:120px;
+}
+
+.cloud1::before{
+    width:70px;
+    height:70px;
+    left:20px;
+    top:-25px;
+}
+
+.cloud1::after{
+    width:90px;
+    height:90px;
+    right:15px;
+    top:-35px;
+}
+
+.cloud2{
+    width:140px;
+    height:50px;
+    top:220px;
+    right:150px;
+}
+
+.cloud2::before{
+    width:60px;
+    height:60px;
+    left:15px;
+    top:-20px;
+}
+
+.cloud2::after{
+    width:75px;
+    height:75px;
+    right:10px;
+    top:-28px;
+}
+
+.cloud3{
+    width:200px;
+    height:65px;
+    bottom:120px;
+    left:220px;
+}
+
+.cloud3::before{
+    width:80px;
+    height:80px;
+    left:25px;
+    top:-28px;
+}
+
+.cloud3::after{
+    width:90px;
+    height:90px;
+    right:20px;
+    top:-35px;
+}
+
+.star{
+    position:absolute;
+    font-size:26px;
+    animation:floating 4s ease-in-out infinite;
+}
+
+.star1{
+    top:160px;
+    right:320px;
+}
+
+.star2{
+    bottom:170px;
+    right:180px;
+}
+
+/* ===========================
+   Navbar
+=========================== */
+
+.navbar{
+    position:absolute;
+    top:20px;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 60px;
+    z-index:10;
+}
+
+.nav-links{
+    display:flex;
+    gap:32px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--text);
+    font-weight:700;
+}
+
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+/* ==========================
+   STORY PAGE
+========================== */
+
+.story-page{
+    display:flex;
+    justify-content:center;
+    padding:80px 20px;
+}
+
+.book{
+    width:900px;
+    min-height:700px;
+    background:white;
+    border-radius:40px;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.08);
+}
+
+.book-image img{
+    width:260px;
+    margin:20px auto;
+    animation:floating 3s ease-in-out infinite;
+}
+
+.book-image img{
+    width:250px;
+}
+
+.book-text p{
+    max-width:500px;
+    margin:0 auto;
+    font-size:20px;
+    line-height:1.7;
+    text-align:justify;
+}
+
+.chapter{
+    display:inline-block;
+    background:var(--primary);
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.book-text h1{
+    font-size:42px;
+    margin-bottom:25px;
+}
+
+.book-text p{
+    font-size:22px;
+    line-height:1.8;
+}
+
+.story-navigation{
+    width:100%;
+    margin-top:auto;
+    padding-top:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.page-number{
+    color:#999;
+    font-size:16px;
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width:768px){
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:16px;
+        font-size:14px;
+    }
+
+    .hero-content{
+        padding:40px 30px;
+    }
+
+    .hero-title{
+        font-size:40px;
+    }
+
+    .hero-subtitle{
+        font-size:18px;
+    }
+
+    .book{
+        width:100%;
+        min-height:auto;
+        padding:40px 24px;
+        border-radius:24px;
+    }
+
+    .book-image img{
+        width:180px;
+    }
+
+    .book-text h1{
+        font-size:40px;
+    }
+
+    .book-text p{
+        font-size:18px;
+    }
+
+    .story-navigation{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+
+/* ==========================
+   Footer
+========================== */
+
+.footer{
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    color:#999;
+
+    font-size:14px;
+
+}
