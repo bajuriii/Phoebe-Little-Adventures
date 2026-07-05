@@ -41,25 +41,27 @@
 
         <div class="book-image">
 
-            <img src="images/phoebe.png"
-                 alt="Phoebe">
+            <img
+            id="story-image"
+            src="images/phoebe.png"
+            alt="Phoebe">
 
         </div>
 
         <div class="book-text">
 
-            <span class="chapter">
+            <span class="chapter" id="chapter">
 
                 Chapter 1
 
             </span>
 
-            <h1>
-            Phoebe Meets<br>
+            <h1 id="story-title">
+            Phoebe Meets
             The Rainbow
             </h1>
 
-            <p>
+            <p id="story-content">
 
                 One sunny morning, Phoebe saw
                 a beautiful rainbow after the rain.
@@ -75,17 +77,27 @@
 
          <div class="story-navigation">
 
-    <button class="btn-secondary" disabled>
-        ← Previous
-    </button>
+    <button
+    id="prev-btn"
+    class="btn-secondary"
+    disabled>
 
-    <div class="page-number">
-        Page 1 of 12
-    </div>
+    ← Previous
+</button>
 
-    <button class="btn-primary">
-        Next →
-    </button>
+    <div
+    class="page-number"
+    id="page-number">
+
+    Page 1 of 2
+</div>
+
+    <button
+    id="next-btn"
+    class="btn-primary">
+
+    Next →
+</button>
 
 </div>
 
@@ -100,6 +112,8 @@
 </footer>
 
 <script src="js/app.js"></script>
+<script src="js/story-data.js"></script>
+<script src="js/story.js"></script>
 
 </body>
 </html>
