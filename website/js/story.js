@@ -9,13 +9,24 @@ if (currentPage >= storyPages.length) {
     currentPage = 0;
 }
 
+const book = document.querySelector(".book");
+
+const ANIMATION_TIME = 250;
+setTimeout(() => {
+    currentPage++;
+    renderStory();
+}, ANIMATION_TIME);
+setTimeout(() => {
+    book.classList.remove("flip-next");
+}, ANIMATION_TIME * 2);
+
 function renderStory() {
 
     const page = storyPages[currentPage];
-    document.getElementById("chapter").innerText = page.chapter;
-    document.getElementById("story-title").innerHTML = page.title;
+    document.getElementById("chapter").textContent  = page.chapter;
+    document.getElementById("story-title").textContent = page.title;
     document.getElementById("story-image").src = page.image;
-    document.getElementById("story-content").innerText = page.content;
+    document.getElementById("story-content").textContent = page.content;
     document.getElementById("page-number").innerText =
         `${currentPage + 1} / ${storyPages.length}`;
     document.getElementById("prev-btn").disabled =
@@ -27,50 +38,31 @@ function renderStory() {
 function nextPage(){
 
     if(currentPage < storyPages.length - 1){
-
-        const book =
-            document.querySelector(".book");
             book.classList.add("flip-next");
-
-        setTimeout(()=>{
+        setTimeout(() => {
             currentPage++;
             renderStory();
+        }, ANIMATION_TIME);
 
-        },250);
-
-        setTimeout(()=>{
-
+        setTimeout(() => {
             book.classList.remove("flip-next");
-
-        },500);
-
+        }, ANIMATION_TIME * 2);
     }
-
 }
 
 function previousPage(){
 
     if(currentPage > 0){
-
-        const book =
-            document.querySelector(".book");
-
         book.classList.add("flip-prev");
 
-        setTimeout(()=>{
-
+        setTimeout(() => {
             currentPage--;
-
             renderStory();
+        }, ANIMATION_TIME);
 
-        },250);
-
-        setTimeout(()=>{
-
+        setTimeout(() => {
             book.classList.remove("flip-prev");
-
-        },500);
-
+        }, ANIMATION_TIME * 2);
     }
 
 }
