@@ -3,11 +3,13 @@
 // ===========================
 
 const params = new URLSearchParams(window.location.search);
+const savedPage = localStorage.getItem("lastPage");
+let currentPage = Number(params.get("id"));
+if (isNaN(currentPage)) {
+    currentPage = savedPage ? Number(savedPage) : 0;
+}
 
-let currentPage =
-    Number(params.get("id")) || 0;
-
-if (currentPage >= storyPages.length) {
+if (currentPage < 0 || currentPage >= storyPages.length) {
     currentPage = 0;
 }
 
@@ -30,14 +32,6 @@ const nextButton = document.getElementById("next-btn");
 // ===========================
 
 const ANIMATION_TIME = 250;
-const chapterElement = document.getElementById("chapter");
-const titleElement = document.getElementById("story-title");
-const imageElement = document.getElementById("story-image");
-const contentElement = document.getElementById("story-content");
-const pageNumberElement = document.getElementById("page-number");
-const prevButton = document.getElementById("prev-btn");
-const nextButton = document.getElementById("next-btn");
-
 
 function renderStory() {
     const page = storyPages[currentPage];
@@ -49,6 +43,15 @@ function renderStory() {
         `${currentPage + 1} / ${storyPages.length}`;
     prevButton.disabled = currentPage === 0;
     nextButton.disabled = currentPage === storyPages.length - 1;
+    saveProgress();
+}
+
+function saveProgress() {
+    localStorage.setItem(
+        "lastPage",
+        currentPage
+    );
+
 }
 
 function nextPage() {
@@ -78,6 +81,14 @@ function animateBook(className, callback) {
     }, ANIMATION_TIME * 2);
 }
 
+function saveProgress() {
+    try {
+        localStorage.setItem("lastPage", currentPage);
+    } catch (error) {
+        console.warn("Unable to save reading progress.", error);
+    }
+}
+
 nextButton.addEventListener(
     "click",
     nextPage
@@ -88,4 +99,4 @@ prevButton.addEventListener(
     previousPage
 );
 
-    renderStory();
+renderStory();
