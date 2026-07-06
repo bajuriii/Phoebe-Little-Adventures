@@ -1,6 +1,8 @@
-const params = new URLSearchParams(
-    window.location.search
-);
+// ===========================
+// URL PARAMETER
+// ===========================
+
+const params = new URLSearchParams(window.location.search);
 
 let currentPage =
     Number(params.get("id")) || 0;
@@ -9,76 +11,81 @@ if (currentPage >= storyPages.length) {
     currentPage = 0;
 }
 
+// ===========================
+// DOM ELEMENTS
+// ===========================
+
 const book = document.querySelector(".book");
 
+const chapterElement = document.getElementById("chapter");
+const titleElement = document.getElementById("story-title");
+const imageElement = document.getElementById("story-image");
+const contentElement = document.getElementById("story-content");
+const pageNumberElement = document.getElementById("page-number");
+const prevButton = document.getElementById("prev-btn");
+const nextButton = document.getElementById("next-btn");
+
+// ===========================
+// CONFIG
+// ===========================
+
 const ANIMATION_TIME = 250;
-setTimeout(() => {
-    currentPage++;
-    renderStory();
-}, ANIMATION_TIME);
-setTimeout(() => {
-    book.classList.remove("flip-next");
-}, ANIMATION_TIME * 2);
+const chapterElement = document.getElementById("chapter");
+const titleElement = document.getElementById("story-title");
+const imageElement = document.getElementById("story-image");
+const contentElement = document.getElementById("story-content");
+const pageNumberElement = document.getElementById("page-number");
+const prevButton = document.getElementById("prev-btn");
+const nextButton = document.getElementById("next-btn");
+
 
 function renderStory() {
-
     const page = storyPages[currentPage];
-    document.getElementById("chapter").textContent  = page.chapter;
-    document.getElementById("story-title").textContent = page.title;
-    document.getElementById("story-image").src = page.image;
-    document.getElementById("story-content").textContent = page.content;
-    document.getElementById("page-number").innerText =
+    chapterElement.textContent = page.chapter;
+    titleElement.textContent = page.title;
+    imageElement.src = page.image;
+    contentElement.textContent = page.content;
+    pageNumberElement.textContent =
         `${currentPage + 1} / ${storyPages.length}`;
-    document.getElementById("prev-btn").disabled =
-        currentPage === 0;
-    document.getElementById("next-btn").disabled =
-        currentPage === storyPages.length - 1;
+    prevButton.disabled = currentPage === 0;
+    nextButton.disabled = currentPage === storyPages.length - 1;
 }
 
-function nextPage(){
-
-    if(currentPage < storyPages.length - 1){
-            book.classList.add("flip-next");
-        setTimeout(() => {
+function nextPage() {
+    if (currentPage < storyPages.length - 1) {
+        animateBook("flip-next", () => {
             currentPage++;
-            renderStory();
-        }, ANIMATION_TIME);
-
-        setTimeout(() => {
-            book.classList.remove("flip-next");
-        }, ANIMATION_TIME * 2);
+        });
     }
 }
 
-function previousPage(){
-
-    if(currentPage > 0){
-        book.classList.add("flip-prev");
-
-        setTimeout(() => {
+function previousPage() {
+    if (currentPage > 0) {
+        animateBook("flip-prev", () => {
             currentPage--;
-            renderStory();
-        }, ANIMATION_TIME);
-
-        setTimeout(() => {
-            book.classList.remove("flip-prev");
-        }, ANIMATION_TIME * 2);
+        });
     }
-
 }
 
-document
-    .getElementById("next-btn")
-    .addEventListener(
-        "click",
-        nextPage
-    );
+function animateBook(className, callback) {
+    book.classList.add(className);
+    setTimeout(() => {
+        callback();
+        renderStory();
+    }, ANIMATION_TIME);
+    setTimeout(() => {
+        book.classList.remove(className);
+    }, ANIMATION_TIME * 2);
+}
 
-document
-    .getElementById("prev-btn")
-    .addEventListener(
-        "click",
-        previousPage
-    );
+nextButton.addEventListener(
+    "click",
+    nextPage
+);
+
+prevButton.addEventListener(
+    "click",
+    previousPage
+);
 
     renderStory();
