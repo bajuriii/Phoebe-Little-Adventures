@@ -1,4 +1,5 @@
 const booksGrid = document.getElementById("books-grid");
+const searchInput = document.getElementById("searchInput");
 const lastPage = Number(localStorage.getItem("lastPage"));
 
 let favorites =
@@ -11,54 +12,22 @@ function saveFavorites() {
     );
 }
 
-document
-    .querySelectorAll(".favorite-btn")
-    .forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const id =
-                Number(button.dataset.id);
-
-            if (favorites.includes(id)) {
-
-                favorites =
-                    favorites.filter(
-                        favorite => favorite !== id
-                    );
-
-            } else {
-
-                favorites.push(id);
-
-            }
-
-            saveFavorites();
-
-            button.textContent =
-                favorites.includes(id)
-                    ? "❤️"
-                    : "🤍";
-
-        });
-
-    });
-
-    function renderBooks(stories) {
+function renderBooks(stories) {
 
     booksGrid.innerHTML = "";
 
-    stories.forEach((story, index) => {
+    stories.forEach(story => {
 
-        const continueBadge = "";
+        const storyIndex =
+            storyPages.indexOf(story);
 
         const buttonText =
-            index === lastPage
+            storyIndex === lastPage
                 ? "Continue Reading"
                 : "Read Story";
 
         const isFavorite =
-            favorites.includes(index);
+            favorites.includes(storyIndex);
 
         const favoriteIcon =
             isFavorite ? "❤️" : "🤍";
@@ -68,7 +37,7 @@ document
 
             <button
                 class="favorite-btn"
-                data-id="${index}">
+                data-id="${storyIndex}">
                 ${favoriteIcon}
             </button>
 
@@ -82,7 +51,7 @@ document
                 <h3>${story.title}</h3>
 
                 <a
-                    href="story.html?id=${index}"
+                    href="story.html?id=${storyIndex}"
                     class="read-btn">
                     ${buttonText}
                 </a>
@@ -91,21 +60,6 @@ document
         </div>
         `;
     });
-
-    // Coming Soon Card
-booksGrid.innerHTML += `
-    <div class="book-card coming-soon">
-        <h2>Coming Soon</h2>
-        <p>More adventures are on the way!</p>
-    </div>
-    `;
-
-    booksGrid.insertAdjacentHTML("afterend", `
-    <div class="coming-soon">
-    <h2>✨ More Adventures Coming Soon ✨</h2>
-    <p>We're creating more exciting stories for Phoebe.</p>
-    </div>
-    `);
 
     attachFavoriteEvents();
 }
@@ -144,5 +98,21 @@ function attachFavoriteEvents() {
         });
 
 }
+
+function searchBooks() {
+
+    const searchText =
+        searchInput.value.toLowerCase();
+
+    const filteredStories =
+        storyPages.filter(story =>
+            story.title.toLowerCase().includes(searchText) ||
+            story.chapter.toLowerCase().includes(searchText)
+        );
+
+    renderBooks(filteredStories);
+}
+
+searchInput.addEventListener("input", searchBooks);
 
 renderBooks(storyPages);
