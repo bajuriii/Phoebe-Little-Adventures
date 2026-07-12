@@ -1,5 +1,7 @@
 const booksGrid = document.getElementById("books-grid");
 const searchInput = document.getElementById("searchInput");
+const emptyFavorites = document.getElementById("empty-favorites");
+const isFavoritesPage = document.body.classList.contains("favorites-page");
 const lastPage = Number(localStorage.getItem("lastPage"));
 
 let favorites =
@@ -15,6 +17,11 @@ function saveFavorites() {
 function renderBooks(stories) {
 
     booksGrid.innerHTML = "";
+
+    if (emptyFavorites) {
+        emptyFavorites.style.display =
+            stories.length === 0 ? "block" : "none";
+    }
 
     stories.forEach(story => {
 
@@ -93,10 +100,24 @@ function attachFavoriteEvents() {
                         ? "❤️"
                         : "🤍";
 
+                if (isFavoritesPage) {
+                    renderFavoriteBooks();
+                }
+
             });
 
         });
 
+}
+
+function renderFavoriteBooks() {
+
+    const favoriteStories =
+        favorites
+            .map(id => storyPages[id])
+            .filter(story => story);
+
+    renderBooks(favoriteStories);
 }
 
 function searchBooks() {
@@ -113,6 +134,12 @@ function searchBooks() {
     renderBooks(filteredStories);
 }
 
-searchInput.addEventListener("input", searchBooks);
+if (searchInput) {
+    searchInput.addEventListener("input", searchBooks);
+}
 
-renderBooks(storyPages);
+if (isFavoritesPage) {
+    renderFavoriteBooks();
+} else {
+    renderBooks(storyPages);
+}
