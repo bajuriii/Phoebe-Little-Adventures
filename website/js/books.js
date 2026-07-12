@@ -3,6 +3,8 @@ const searchInput = document.getElementById("searchInput");
 const emptyFavorites = document.getElementById("empty-favorites");
 const isFavoritesPage = document.body.classList.contains("favorites-page");
 const lastPage = Number(localStorage.getItem("lastPage"));
+const readingProgress =
+    JSON.parse(localStorage.getItem("readingProgress")) || {};
 
 let favorites =
     JSON.parse(localStorage.getItem("favorites")) || [];
@@ -12,6 +14,22 @@ function saveFavorites() {
         "favorites",
         JSON.stringify(favorites)
     );
+}
+
+function getProgressText(storyIndex) {
+
+    const progress =
+        readingProgress[storyIndex] || 0;
+
+    if (progress >= 100) {
+        return "✅ Finished";
+    }
+
+    if (progress > 0) {
+        return `${progress}% Read`;
+    }
+
+    return "";
 }
 
 function renderBooks(stories) {
@@ -39,6 +57,14 @@ function renderBooks(stories) {
         const favoriteIcon =
             isFavorite ? "❤️" : "🤍";
 
+        const progressText =
+            getProgressText(storyIndex);
+
+        const progressHtml =
+            progressText
+                ? `<p>${progressText}</p>`
+                : "";
+
         booksGrid.innerHTML += `
         <div class="book-card">
 
@@ -56,6 +82,8 @@ function renderBooks(stories) {
                 <p>${story.chapter}</p>
 
                 <h3>${story.title}</h3>
+
+                ${progressHtml}
 
                 <a
                     href="story.html?id=${storyIndex}"

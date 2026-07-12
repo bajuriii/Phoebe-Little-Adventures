@@ -32,9 +32,11 @@ const nextButton = document.getElementById("next-btn");
 // ===========================
 
 const ANIMATION_TIME = 250;
+const PROGRESS_KEY = "readingProgress";
 
 function renderStory() {
     const page = storyPages[currentPage];
+    window.scrollTo(0, 0);
     chapterElement.textContent = page.chapter;
     titleElement.textContent = page.title;
     imageElement.src = page.image;
@@ -44,18 +46,59 @@ function renderStory() {
     prevButton.disabled = currentPage === 0;
     nextButton.disabled = currentPage === storyPages.length - 1;
     saveProgress();
+    updateReadingProgress();
 }
 
 function saveProgress() {
-    localStorage.setItem(
-        "lastPage",
-        currentPage
-    );
+    try {
+        localStorage.setItem("lastPage", currentPage);
+    } catch (error) {
+        console.warn("Unable to save reading progress.", error);
+    }
+}
 
+function getReadingProgress() {
+    return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+}
+
+function saveReadingProgress(percent) {
+    try {
+        const readingProgress = getReadingProgress();
+        const savedProgress = readingProgress[currentPage] || 0;
+
+        readingProgress[currentPage] =
+            Math.max(savedProgress, percent);
+
+        localStorage.setItem(
+            PROGRESS_KEY,
+            JSON.stringify(readingProgress)
+        );
+    } catch (error) {
+        console.warn("Unable to save reading progress.", error);
+    }
+}
+
+function getScrollProgress() {
+    const pageHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+    if (pageHeight <= 0) {
+        return 100;
+    }
+
+    const progress =
+        Math.round((window.scrollY / pageHeight) * 100);
+
+    return Math.min(progress, 100);
+}
+
+function updateReadingProgress() {
+    saveReadingProgress(getScrollProgress());
 }
 
 function nextPage() {
     if (currentPage < storyPages.length - 1) {
+        saveReadingProgress(100);
         animateBook("flip-next", () => {
             currentPage++;
         });
@@ -81,14 +124,6 @@ function animateBook(className, callback) {
     }, ANIMATION_TIME * 2);
 }
 
-function saveProgress() {
-    try {
-        localStorage.setItem("lastPage", currentPage);
-    } catch (error) {
-        console.warn("Unable to save reading progress.", error);
-    }
-}
-
 nextButton.addEventListener(
     "click",
     nextPage
@@ -97,6 +132,11 @@ nextButton.addEventListener(
 prevButton.addEventListener(
     "click",
     previousPage
+);
+
+window.addEventListener(
+    "scroll",
+    updateReadingProgress
 );
 
 renderStory();
