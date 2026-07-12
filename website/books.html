@@ -1,60 +1,62 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1.0">
-        <title>Bookshelf</title>
-        <link rel="stylesheet"
-            href="css/style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Bookshelf</title>
+    <link rel="stylesheet"
+          href="css/style.css">
+</head>
 
-    <body>
-    <header class="navbar">
-        <div class="logo">
-            🌈 Phoebe
-        </div>
+<body>
+<header class="navbar">
+    <div class="logo">
+        🌈 Phoebe
+    </div>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="books.html">Stories</a>
-            <a href="favorites.html">❤️ Favorites</a>
-        </div>
-    </header>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="books.html" aria-current="page">Stories</a>
+        <a href="favorites.html">❤️ Favorites</a>
+    </div>
+</header>
 
-    <main class="bookshelf">
-        <h1 class="bookshelf-title">
-            📚 Choose a Story !
-        </h1>
+<main class="bookshelf">
+    <h1 class="bookshelf-title">
+        📚 Choose a Story!
+    </h1>
 
-        <div
-            class="reading-stats"
-            id="reading-stats">
-        </div>
+    <div
+        class="reading-stats"
+        id="reading-stats"
+        aria-label="Reading statistics">
+    </div>
 
-        <div class="search-box">
+    <div class="search-box">
         <input
             type="text"
             id="searchInput"
+            aria-label="Search stories"
             placeholder="🔍 Search stories...">
-        </div>
+    </div>
 
-        <div
-            class="books-grid"
-            id="books-grid">
-        </div>
+    <div
+        class="books-grid"
+        id="books-grid">
+    </div>
 
-        <div class="coming-soon">
-            <h2>✨ More Adventures Coming Soon ✨</h2>
-            <p>We're creating more exciting stories for Phoebe.</p>
-        </div>
+    <div class="coming-soon">
+        <h2>✨ More Adventures Coming Soon ✨</h2>
+        <p>We're creating more exciting stories for Phoebe.</p>
+    </div>
 
-    </main>
+</main>
 
-    <script src="js/story-data.js"></script>
-    <script src="js/books.js"></script>
+<script src="js/story-data.js"></script>
+<script src="js/books.js"></script>
 
-    </body>
+</body>
 
-    </html>
+</html>

@@ -40,6 +40,7 @@ function renderStory() {
     chapterElement.textContent = page.chapter;
     titleElement.textContent = page.title;
     imageElement.src = page.image;
+    imageElement.alt = page.title;
     contentElement.textContent = page.content;
     pageNumberElement.textContent =
         `${currentPage + 1} / ${storyPages.length}`;

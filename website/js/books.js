@@ -174,9 +174,16 @@ function attachFavoriteEvents() {
         .querySelectorAll(".favorite-btn")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            const id = Number(button.dataset.id);
 
-                const id = Number(button.dataset.id);
+            button.setAttribute(
+                "aria-label",
+                favorites.includes(id)
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+            );
+
+            button.addEventListener("click", () => {
 
                 if (favorites.includes(id)) {
 
@@ -197,6 +204,13 @@ function attachFavoriteEvents() {
                     favorites.includes(id)
                         ? "❤️"
                         : "🤍";
+
+                button.setAttribute(
+                    "aria-label",
+                    favorites.includes(id)
+                        ? "Remove from favorites"
+                        : "Add to favorites"
+                );
 
                 if (isFavoritesPage) {
                     renderFavoriteBooks();

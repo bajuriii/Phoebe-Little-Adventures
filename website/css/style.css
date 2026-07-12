@@ -9,6 +9,7 @@
     --accent:#8ED8F8;
     --background:#FFF9F2;
     --text:#4A4A4A;
+    --muted:#666666;
     --white:#FFFFFF;
     --font:'Nunito',sans-serif;
 }
@@ -33,6 +34,19 @@ body{
     overflow-x:hidden;
 }
 
+a,
+button,
+input{
+    font-family:var(--font);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:4px;
+}
+
 .hero{
     display:flex;
     justify-content:center;
@@ -49,7 +63,7 @@ body{
     background:white;
     padding:70px 60px;
     border-radius:40px;
-        box-shadow:0 20px 60px rgba(0,0,0,.08);
+    box-shadow:0 20px 60px rgba(0,0,0,.08);
     position:relative;
     z-index:2;
 }
@@ -83,7 +97,12 @@ body{
     text-decoration:none;
     border-radius:16px;
     font-weight:bold;
-    transition:.3s;
+    border:none;
+    cursor:pointer;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        opacity .3s ease;
     box-shadow:0 10px 25px rgba(255,214,107,.35);
 }
 
@@ -109,6 +128,24 @@ body{
     background:#F5F5F5;
     border-color:#E5E5E5;
     cursor:not-allowed;
+}
+
+.btn-secondary{
+    padding:14px 28px;
+    border:2px solid #E5E5E5;
+    border-radius:16px;
+    background:#fff;
+    color:var(--text);
+    font-weight:700;
+    cursor:pointer;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.btn-secondary:not(:disabled):hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
 }
 
 /* ===========================
@@ -233,9 +270,12 @@ body{
     text-decoration:none;
     color:var(--text);
     font-weight:700;
+    border-radius:10px;
+    padding:6px 8px;
 }
 
-.nav-links a:hover{
+.nav-links a:hover,
+.nav-links a[aria-current="page"]{
     color:var(--primary);
 }
 
@@ -245,7 +285,7 @@ body{
 .story-page{
     display:flex;
     justify-content:center;
-    padding:80px 20px;
+    padding:110px 20px 80px;
 }
 
 .book{
@@ -302,10 +342,15 @@ body{
     align-items:center;
 }
 
+.story-navigation .btn-primary,
+.story-navigation .btn-secondary{
+    margin-top:0;
+}
+
 .page-number{
     font-size:18px;
     font-weight:700;
-    color:#888;
+    color:var(--muted);
 }
 
 /* ==========================
@@ -324,6 +369,7 @@ body{
 
     .hero-content{
         padding:40px 30px;
+        border-radius:28px;
     }
 
     .hero-title{
@@ -356,6 +402,12 @@ body{
     .story-navigation{
         flex-direction:column;
         gap:20px;
+    }
+
+    .story-navigation .btn-primary,
+    .story-navigation .btn-secondary{
+        width:100%;
+        margin-top:0;
     }
 }
 
@@ -464,7 +516,7 @@ body{
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    padding:16px;
+    padding:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.08);
     transition:
         transform .3s ease,
@@ -480,7 +532,8 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    text-align:center;}
+    text-align:center;
+}
 
 .book-card:hover {
     transform: translateY(-8px);
@@ -534,7 +587,7 @@ body{
     padding: 14px;
     border-radius: 14px;
     background: var(--primary);
-    color: white;
+    color:var(--text);
     text-decoration: none;
     font-size:15px;
     font-weight: bold;
@@ -542,11 +595,12 @@ body{
 }
 
 .read-btn:hover {
-    opacity: .9;
+    opacity:.9;
+    transform:translateY(-2px);
 }
 
  .book-card p {
-    color: #666;
+    color:var(--muted);
     font-size: 14px;
     margin-bottom: 16px;
 }
@@ -728,7 +782,8 @@ body{
     background:#fff;
     border-radius:24px;
     padding:40px 24px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);}
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
 
 .coming-soon h2{
     margin-bottom:6px;
