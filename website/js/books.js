@@ -38,6 +38,22 @@ function getReadingStatus(storyIndex) {
     return "🆕 New (0%)";
 }
 
+function getReadingStatusClass(storyIndex) {
+
+    const progress =
+        getProgressPercent(storyIndex);
+
+    if (progress >= 100) {
+        return "status-finished";
+    }
+
+    if (progress > 0) {
+        return "status-reading";
+    }
+
+    return "status-new";
+}
+
 function updateReadingStats() {
 
     if (!readingStats) {
@@ -101,6 +117,9 @@ function renderBooks(stories) {
         const readingStatus =
             getReadingStatus(storyIndex);
 
+        const readingStatusClass =
+            getReadingStatusClass(storyIndex);
+
         booksGrid.innerHTML += `
         <div class="book-card">
 
@@ -115,7 +134,7 @@ function renderBooks(stories) {
             </div>
 
             <div class="book-info">
-                <span class="reading-status">
+                <span class="reading-status ${readingStatusClass}">
                     ${readingStatus}
                 </span>
 

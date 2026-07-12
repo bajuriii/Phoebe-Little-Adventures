@@ -579,6 +579,10 @@ body{
     background: white;
 }
 
+.favorite-btn:active{
+    transform: scale(.9);
+}
+
 .book-cover{
     overflow: hidden;
     border-radius: 18px;
@@ -603,15 +607,20 @@ body{
     flex-wrap:wrap;
     justify-content:center;
     gap:14px;
+    max-width:760px;
     margin:-30px auto 36px;
+    padding:18px;
+    background:#fff;
+    border-radius:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
 .reading-stats span{
-    background:#fff;
+    background:#FFF9F2;
     border-radius:18px;
     padding:12px 18px;
     font-weight:700;
-    box-shadow:0 8px 20px rgba(0,0,0,.07);
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .reading-status{
@@ -623,6 +632,21 @@ body{
     font-size:13px;
     font-weight:700;
     margin-bottom:8px;
+}
+
+.status-new{
+    background:#EAF6FF;
+    color:#2277B8;
+}
+
+.status-reading{
+    background:#FFF1DC;
+    color:#C46A00;
+}
+
+.status-finished{
+    background:#EAF8EA;
+    color:#2F8F46;
 }
 
 .progress-bar{
@@ -638,11 +662,27 @@ body{
     height:100%;
     background:var(--accent);
     border-radius:20px;
+    transition:width .35s ease;
 }
 
 .progress-text{
     text-align:center;
     font-weight:700;
+}
+
+#empty-favorites{
+    max-width:520px;
+    margin:50px auto 0;
+    padding:48px 28px;
+}
+
+#empty-favorites h2{
+    font-size:28px;
+}
+
+#empty-favorites p{
+    font-size:17px;
+    line-height:1.6;
 }
 
 /* ==========================
