@@ -1,6 +1,7 @@
 const booksGrid = document.getElementById("books-grid");
 const searchInput = document.getElementById("searchInput");
 const emptyFavorites = document.getElementById("empty-favorites");
+const readingStats = document.getElementById("reading-stats");
 const isFavoritesPage = document.body.classList.contains("favorites-page");
 const lastPage = Number(localStorage.getItem("lastPage"));
 const readingProgress =
@@ -16,20 +17,57 @@ function saveFavorites() {
     );
 }
 
-function getProgressText(storyIndex) {
+function getProgressPercent(storyIndex) {
+
+    return Number(readingProgress[storyIndex] || 0);
+}
+
+function getReadingStatus(storyIndex) {
 
     const progress =
-        readingProgress[storyIndex] || 0;
+        getProgressPercent(storyIndex);
 
     if (progress >= 100) {
-        return "✅ Finished";
+        return "✅ Finished (100%)";
     }
 
     if (progress > 0) {
-        return `${progress}% Read`;
+        return `📖 Reading (${progress}%)`;
     }
 
-    return "";
+    return "🆕 New (0%)";
+}
+
+function updateReadingStats() {
+
+    if (!readingStats) {
+        return;
+    }
+
+    const totalStories =
+        storyPages.length;
+
+    const totalFavorites =
+        favorites.length;
+
+    const totalReading =
+        storyPages.filter((story, index) => {
+            const progress = getProgressPercent(index);
+
+            return progress > 0 && progress < 100;
+        }).length;
+
+    const totalFinished =
+        storyPages.filter((story, index) =>
+            getProgressPercent(index) >= 100
+        ).length;
+
+    readingStats.innerHTML = `
+        <span>📚 ${totalStories} Stories</span>
+        <span>❤️ ${totalFavorites} Favorites</span>
+        <span>📖 ${totalReading} Reading</span>
+        <span>✅ ${totalFinished} Finished</span>
+    `;
 }
 
 function renderBooks(stories) {
@@ -57,13 +95,11 @@ function renderBooks(stories) {
         const favoriteIcon =
             isFavorite ? "❤️" : "🤍";
 
-        const progressText =
-            getProgressText(storyIndex);
+        const progress =
+            getProgressPercent(storyIndex);
 
-        const progressHtml =
-            progressText
-                ? `<p>${progressText}</p>`
-                : "";
+        const readingStatus =
+            getReadingStatus(storyIndex);
 
         booksGrid.innerHTML += `
         <div class="book-card">
@@ -79,11 +115,24 @@ function renderBooks(stories) {
             </div>
 
             <div class="book-info">
+                <span class="reading-status">
+                    ${readingStatus}
+                </span>
+
                 <p>${story.chapter}</p>
 
                 <h3>${story.title}</h3>
 
-                ${progressHtml}
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width:${progress}%">
+                    </div>
+                </div>
+
+                <p class="progress-text">
+                    ${progress}% Read
+                </p>
 
                 <a
                     href="story.html?id=${storyIndex}"
@@ -96,6 +145,7 @@ function renderBooks(stories) {
         `;
     });
 
+    updateReadingStats();
     attachFavoriteEvents();
 }
 
@@ -122,6 +172,7 @@ function attachFavoriteEvents() {
                 }
 
                 saveFavorites();
+                updateReadingStats();
 
                 button.textContent =
                     favorites.includes(id)
