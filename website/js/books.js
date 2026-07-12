@@ -28,14 +28,14 @@ function getReadingStatus(storyIndex) {
         getProgressPercent(storyIndex);
 
     if (progress >= 100) {
-        return "✅ Finished (100%)";
+        return "✅ Finished";
     }
 
     if (progress > 0) {
-        return `📖 Reading (${progress}%)`;
+        return "📖 Reading";
     }
 
-    return "🆕 New (0%)";
+    return "🆕 New";
 }
 
 function getReadingStatusClass(storyIndex) {
