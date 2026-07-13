@@ -29,11 +29,11 @@ if (currentPage < 0 || currentPage >= getCurrentStoryPages().length) {
 
 const book = document.querySelector(".book");
 
-const chapterElement = document.getElementById("chapter");
 const titleElement = document.getElementById("story-title");
 const imageElement = document.getElementById("story-image");
 const contentElement = document.getElementById("story-content");
 const pageNumberElement = document.getElementById("page-number");
+const readerProgressFill = document.getElementById("reader-progress-fill");
 const prevButton = document.getElementById("prev-btn");
 const nextButton = document.getElementById("next-btn");
 
@@ -41,8 +41,13 @@ const nextButton = document.getElementById("next-btn");
 // CONFIG
 // ===========================
 
-const ANIMATION_TIME = 250;
+const ANIMATION_TIME = 520;
 const PROGRESS_KEY = "readingProgress";
+const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+);
+
+let isAnimating = false;
 
 function getCurrentStoryPages() {
     const story = storyPages[currentStory];
@@ -62,16 +67,20 @@ function renderStory() {
     const story = storyPages[currentStory];
     const storyPagesList = getCurrentStoryPages();
     const page = storyPagesList[currentPage];
+    const readingPercent =
+        ((currentPage + 1) / storyPagesList.length) * 100;
 
     window.scrollTo(0, 0);
-    chapterElement.textContent = story.chapter;
     titleElement.textContent = story.title;
+    titleElement.hidden = currentPage !== 0;
     imageElement.src = getPageImage(story, page);
     imageElement.alt =
         `${story.title} page ${currentPage + 1}`;
     contentElement.textContent = page.content;
     pageNumberElement.textContent =
         `${currentPage + 1} / ${storyPagesList.length}`;
+    readerProgressFill.style.width =
+        `${readingPercent}%`;
     prevButton.disabled = currentPage === 0;
     nextButton.disabled = currentPage === storyPagesList.length - 1;
     saveProgress();
@@ -136,8 +145,12 @@ function updateReadingProgress() {
 function nextPage() {
     const storyPagesList = getCurrentStoryPages();
 
+    if (isAnimating) {
+        return;
+    }
+
     if (currentPage < storyPagesList.length - 1) {
-        animateBook("flip-next", () => {
+        turnPage("page-turn-next", () => {
             currentPage++;
         });
     } else {
@@ -146,22 +159,45 @@ function nextPage() {
 }
 
 function previousPage() {
+    if (isAnimating) {
+        return;
+    }
+
     if (currentPage > 0) {
-        animateBook("flip-prev", () => {
+        turnPage("page-turn-prev", () => {
             currentPage--;
         });
     }
 }
 
-function animateBook(className, callback) {
+function setNavigationDisabled(isDisabled) {
+    prevButton.disabled = isDisabled || currentPage === 0;
+    nextButton.disabled =
+        isDisabled || currentPage === getCurrentStoryPages().length - 1;
+}
+
+function turnPage(className, callback) {
+    if (reducedMotion.matches) {
+        callback();
+        renderStory();
+        return;
+    }
+
+    isAnimating = true;
+    setNavigationDisabled(true);
     book.classList.add(className);
+
     setTimeout(() => {
         callback();
         renderStory();
-    }, ANIMATION_TIME);
+        setNavigationDisabled(true);
+    }, ANIMATION_TIME / 2);
+
     setTimeout(() => {
         book.classList.remove(className);
-    }, ANIMATION_TIME * 2);
+        isAnimating = false;
+        setNavigationDisabled(false);
+    }, ANIMATION_TIME);
 }
 
 nextButton.addEventListener(

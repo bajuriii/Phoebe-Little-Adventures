@@ -34,13 +34,11 @@
         </div>
 
         <div class="book-text">
-            <span class="chapter" id="chapter">
-                Chapter 1
-            </span>
-
             <h1 id="story-title">
                 Phoebe Meets The Rainbow
             </h1>
+
+            <div class="reader-action-slot" aria-hidden="true"></div>
 
             <p id="story-content">
                 One sunny morning, Phoebe saw a beautiful rainbow after the rain.
@@ -49,6 +47,15 @@
         </div>
 
         <div class="story-navigation">
+            <div
+                class="reader-progress"
+                aria-hidden="true">
+                <div
+                    class="reader-progress-fill"
+                    id="reader-progress-fill">
+                </div>
+            </div>
+
             <button
                 id="prev-btn"
                 class="btn-secondary"
