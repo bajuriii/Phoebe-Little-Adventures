@@ -4,12 +4,22 @@
 
 const params = new URLSearchParams(window.location.search);
 const savedPage = localStorage.getItem("lastPage");
-let currentPage = Number(params.get("id"));
-if (isNaN(currentPage)) {
-    currentPage = savedPage ? Number(savedPage) : 0;
+let currentStory = Number(params.get("id"));
+let currentPage = Number(params.get("page"));
+
+if (isNaN(currentStory)) {
+    currentStory = savedPage ? Number(savedPage) : 0;
 }
 
-if (currentPage < 0 || currentPage >= storyPages.length) {
+if (isNaN(currentPage)) {
+    currentPage = 0;
+}
+
+if (currentStory < 0 || currentStory >= storyPages.length) {
+    currentStory = 0;
+}
+
+if (currentPage < 0 || currentPage >= getCurrentStoryPages().length) {
     currentPage = 0;
 }
 
@@ -34,25 +44,35 @@ const nextButton = document.getElementById("next-btn");
 const ANIMATION_TIME = 250;
 const PROGRESS_KEY = "readingProgress";
 
+function getCurrentStoryPages() {
+    const story = storyPages[currentStory];
+
+    return story.pages || [story];
+}
+
 function renderStory() {
-    const page = storyPages[currentPage];
+    const story = storyPages[currentStory];
+    const storyPagesList = getCurrentStoryPages();
+    const page = storyPagesList[currentPage];
+
     window.scrollTo(0, 0);
-    chapterElement.textContent = page.chapter;
-    titleElement.textContent = page.title;
+    chapterElement.textContent = story.chapter;
+    titleElement.textContent = story.title;
     imageElement.src = page.image;
-    imageElement.alt = page.title;
+    imageElement.alt =
+        `${story.title} page ${currentPage + 1}`;
     contentElement.textContent = page.content;
     pageNumberElement.textContent =
-        `${currentPage + 1} / ${storyPages.length}`;
+        `${currentPage + 1} / ${storyPagesList.length}`;
     prevButton.disabled = currentPage === 0;
-    nextButton.disabled = currentPage === storyPages.length - 1;
+    nextButton.disabled = currentPage === storyPagesList.length - 1;
     saveProgress();
     updateReadingProgress();
 }
 
 function saveProgress() {
     try {
-        localStorage.setItem("lastPage", currentPage);
+        localStorage.setItem("lastPage", currentStory);
     } catch (error) {
         console.warn("Unable to save reading progress.", error);
     }
@@ -65,9 +85,9 @@ function getReadingProgress() {
 function saveReadingProgress(percent) {
     try {
         const readingProgress = getReadingProgress();
-        const savedProgress = readingProgress[currentPage] || 0;
+        const savedProgress = readingProgress[currentStory] || 0;
 
-        readingProgress[currentPage] =
+        readingProgress[currentStory] =
             Math.max(savedProgress, percent);
 
         localStorage.setItem(
@@ -80,6 +100,14 @@ function saveReadingProgress(percent) {
 }
 
 function getScrollProgress() {
+    const storyPagesList = getCurrentStoryPages();
+
+    if (storyPagesList.length > 1) {
+        return Math.round(
+            ((currentPage + 1) / storyPagesList.length) * 100
+        );
+    }
+
     const pageHeight =
         document.documentElement.scrollHeight - window.innerHeight;
 
@@ -98,11 +126,14 @@ function updateReadingProgress() {
 }
 
 function nextPage() {
-    if (currentPage < storyPages.length - 1) {
-        saveReadingProgress(100);
+    const storyPagesList = getCurrentStoryPages();
+
+    if (currentPage < storyPagesList.length - 1) {
         animateBook("flip-next", () => {
             currentPage++;
         });
+    } else {
+        saveReadingProgress(100);
     }
 }
 

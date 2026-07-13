@@ -1,3 +1,6 @@
+const story07BasePath =
+    "images/stories/story-07-the-lost-little-star";
+
 const storyPages = [
 
     {
@@ -51,9 +54,72 @@ const storyPages = [
     {
         chapter: "Chapter 7",
         title: "The Lost Little Star",
-        image: "images/covers/chapter7.png",
+        subtitle: "A bedtime story about kindness and friendship.",
+        image: `${story07BasePath}/cover.webp`,
         content:
-        "One night, Phoebe found a tiny star that had lost its place in the sky. Together, they learned that helping others brings happiness to everyone."
+        "One peaceful evening, Phoebe looked up at the sparkling night sky. Hundreds of little stars twinkled above her.",
+        pages: [
+            {
+                image: `${story07BasePath}/page-01.webp`,
+                content:
+                "One peaceful evening, Phoebe looked up at the sparkling night sky. Hundreds of little stars twinkled above her."
+            },
+            {
+                image: `${story07BasePath}/page-02.webp`,
+                content:
+                "Suddenly, one tiny star slipped from the sky. It landed softly beside Phoebe."
+            },
+            {
+                image: `${story07BasePath}/page-03.webp`,
+                content:
+                "The little star was crying. \"I can't find my way home.\" Phoebe smiled kindly."
+            },
+            {
+                image: `${story07BasePath}/page-04.webp`,
+                content:
+                "\"Don't worry,\" said Phoebe. \"I'll help you.\" The little star smiled again."
+            },
+            {
+                image: `${story07BasePath}/page-05.webp`,
+                content:
+                "Together, they walked into the magical forest. Fireflies danced around them."
+            },
+            {
+                image: `${story07BasePath}/page-06.webp`,
+                content:
+                "A wise old owl watched from a tree. \"I know the way,\" the owl said."
+            },
+            {
+                image: `${story07BasePath}/page-07.webp`,
+                content:
+                "The owl pointed toward a glowing hill. \"Follow the light.\" Phoebe thanked the owl."
+            },
+            {
+                image: `${story07BasePath}/page-08.webp`,
+                content:
+                "Phoebe climbed the hill. The little star began shining brighter and brighter."
+            },
+            {
+                image: `${story07BasePath}/page-09.webp`,
+                content:
+                "At the top of the hill, the little star slowly floated into the sky. A beautiful beam of light surrounded it."
+            },
+            {
+                image: `${story07BasePath}/page-10.webp`,
+                content:
+                "The little star found its family. The whole night sky sparkled brightly. Phoebe smiled happily."
+            },
+            {
+                image: `${story07BasePath}/page-11.webp`,
+                content:
+                "The little star twinkled as if saying, \"Thank you, Phoebe.\" Phoebe waved goodbye."
+            },
+            {
+                image: `${story07BasePath}/page-12.webp`,
+                content:
+                "Phoebe walked home with a happy heart. She knew that helping others made the world brighter. The End."
+            }
+        ]
     },
 
     {

@@ -1,0 +1,46 @@
+{
+  "id": 7,
+  "slug": "the-lost-little-star",
+  "title": "The Lost Little Star",
+  "subtitle": "A bedtime story about kindness and friendship.",
+  "series": "Phoebe Little Adventures",
+  "version": "1.0.0",
+  "language": "en",
+  "targetAge": {
+    "min": 3,
+    "max": 6
+  },
+  "pages": 12,
+  "cover": "cover.webp",
+  "thumbnail": "cover.webp",
+  "images": [
+    "cover.webp",
+    "page-01.webp",
+    "page-02.webp",
+    "page-03.webp",
+    "page-04.webp",
+    "page-05.webp",
+    "page-06.webp",
+    "page-07.webp",
+    "page-08.webp",
+    "page-09.webp",
+    "page-10.webp",
+    "page-11.webp",
+    "page-12.webp"
+  ],
+  "category": [
+    "Adventure",
+    "Bedtime",
+    "Kindness"
+  ],
+  "tags": [
+    "phoebe",
+    "star",
+    "friendship",
+    "kindness",
+    "bedtime"
+  ],
+  "moral": "Even the smallest act of kindness can light up someone's world.",
+  "readingTime": "5 minutes",
+  "status": "published"
+}
