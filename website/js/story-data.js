@@ -126,79 +126,94 @@ const storyPages = [
     },
 
     {
-        chapter: "Chapter 7",
-        title: story07Metadata.title,
-        subtitle: story07Metadata.subtitle,
-        metadata: story07Metadata,
-        image: getStoryAssetPath(
-            story07Metadata,
-            story07Metadata.thumbnail
-        ),
-        content:
-        "One peaceful evening, Phoebe looked up at the sparkling night sky. Hundreds of little stars twinkled above her.",
-        pages: [
-            {
-                image: story07Metadata.images[0],
-                content:
-                "One peaceful evening, Phoebe looked up at the sparkling night sky. Hundreds of little stars twinkled above her."
-            },
-            {
-                image: story07Metadata.images[1],
-                content:
-                "Suddenly, one tiny star slipped from the sky. It landed softly beside Phoebe."
-            },
-            {
-                image: story07Metadata.images[2],
-                content:
-                "The little star was crying. \"I can't find my way home.\" Phoebe smiled kindly."
-            },
-            {
-                image: story07Metadata.images[3],
-                content:
-                "\"Don't worry,\" said Phoebe. \"I'll help you.\" The little star smiled again."
-            },
-            {
-                image: story07Metadata.images[4],
-                content:
-                "Together, they walked into the magical forest. Fireflies danced around them."
-            },
-            {
-                image: story07Metadata.images[5],
-                content:
-                "A wise old owl watched from a tree. \"I know the way,\" the owl said."
-            },
-            {
-                image: story07Metadata.images[6],
-                content:
-                "The owl pointed toward a glowing hill. \"Follow the light.\" Phoebe thanked the owl."
-            },
-            {
-                image: story07Metadata.images[7],
-                content:
-                "Phoebe climbed the hill. The little star began shining brighter and brighter."
-            },
-            {
-                image: story07Metadata.images[8],
-                content:
-                "At the top of the hill, the little star slowly floated into the sky. A beautiful beam of light surrounded it."
-            },
-            {
-                image: story07Metadata.images[9],
-                content:
-                "The little star found its family. The whole night sky sparkled brightly. Phoebe smiled happily."
-            },
-            {
-                image: story07Metadata.images[10],
-                content:
-                "The little star twinkled as if saying, \"Thank you, Phoebe.\" Phoebe waved goodbye."
-            },
-            {
-                image: story07Metadata.images[11],
-                content:
-                "Phoebe walked home with a happy heart. She knew that helping others made the world brighter. The End."
-            }
-        ]
-    },
+		chapter: "Chapter 7",
+		title: story07Metadata.title,
+		subtitle: story07Metadata.subtitle,
+		metadata: story07Metadata,
+		image: getStoryAssetPath(
+			story07Metadata,
+			story07Metadata.thumbnail
+		),
+		content: `
+		One peaceful evening, Phoebe stood on a grassy hill and gazed up at the sparkling night sky. Hundreds of tiny stars twinkled like little diamonds above the quiet valley. The bright moon smiled gently from the sky as a cool breeze danced through the colorful flowers. Phoebe loved looking at the stars because they always made her feel calm, happy, and full of wonder.
+		`	,
+		pages: [
+        {
+            image: story07Metadata.images[0],
+            content: `
+		One peaceful evening, Phoebe stood on a grassy hill and gazed up at the sparkling night sky. Hundreds of tiny stars twinkled like little diamonds above the quiet valley. The bright moon smiled gently from the sky as a cool breeze danced through the colorful flowers. Phoebe loved looking at the stars because they always made her feel calm, happy, and full of wonder.
+		`
+        },
+        {
+            image: story07Metadata.images[1],
+            content: `
+		As Phoebe admired the beautiful night sky, something amazing happened. One tiny golden star suddenly slipped away from the others, leaving behind a trail of sparkling light. It floated gently through the air like a glowing feather before landing softly on the grass beside her. Phoebe's eyes grew wide with surprise as she carefully stepped closer to see what had happened.
+		`
+        },
+        {
+            image: story07Metadata.images[2],
+            content: `
+		The little star looked very sad. Tiny glowing tears rolled down its shining face as its soft light flickered gently. "I can't find my way home," the little star whispered in a trembling voice. Phoebe knelt beside her new little friend and gave the star the warmest smile she could. She wanted the little star to know that it did not have to face this problem alone.
+		`
+        },
+        {
+            image: story07Metadata.images[3],
+            content: `
+		"Don't worry," Phoebe said kindly. "We'll find your home together." The little star looked up with hopeful eyes, and its gentle glow became a little brighter. A cheerful smile slowly appeared on its tiny face, filling the night with warm golden light. Hand in hand, Phoebe and the little star began their magical adventure beneath the sparkling sky.
+		`
+        },
+        {
+            image: story07Metadata.images[4],
+            content: `
+		Phoebe and the little star walked deeper into the magical forest. Tiny fireflies floated through the air like glowing lanterns, lighting the winding path before them. Friendly trees smiled as they passed, while little rabbits peeked out to watch their journey. Holding the little star safely in her hands, Phoebe felt brave because she knew every adventure was easier with a friend.
+	`
+        },
+        {
+            image: story07Metadata.images[5],
+            content: `
+		Soon they met a wise old owl sitting quietly on a strong tree branch. The owl wore tiny round glasses and looked as though it had read every story in the forest. "Welcome, little travelers," the owl said with a gentle smile. "I may know the way to help your little friend find its home."
+		`
+        },
+        {
+            image: story07Metadata.images[6],
+            content: `
+		The wise owl stretched out one wing and pointed toward a glowing hill far beyond the trees. A golden path of light shimmered through the forest, leading all the way to the top. "Follow that shining trail," the owl explained. "When the little star reaches the highest place, it will remember the way back to the sky." Phoebe smiled happily and thanked the owl for the wonderful advice.
+		`
+        },
+        {
+            image: story07Metadata.images[7],
+            content: `
+		Phoebe and the little star climbed the gentle hill together. Step by step they followed the glowing path as the sky became brighter with thousands of sparkling stars. The little star's light grew warmer and stronger with every step they took. It laughed with excitement because it could finally feel that home was getting closer.
+		`
+        },
+        {
+            image: story07Metadata.images[8],
+            content: `
+		At the very top of the hill, the little star suddenly sparkled brighter than ever before. A beautiful beam of golden light stretched all the way into the night sky, like a magical bridge leading home. Phoebe lifted her hand and watched with joyful eyes as the little star floated higher and higher. "You found your way!" she whispered happily.
+		`
+        },
+        {
+            image: story07Metadata.images[9],
+            content: `
+		The little star reached the sky and was welcomed by hundreds of shining stars. They twinkled happily together, making the whole night brighter than ever before. The little star danced among its family, glowing with happiness once again. Phoebe smiled from the hill, knowing that kindness had helped bring a family back together.
+		`
+        },
+        {
+            image: story07Metadata.images[10],
+            content: `
+		That night, Phoebe sat by her bedroom window and looked up at the sparkling sky. One bright little star twinkled a little brighter than all the others, almost as if it were waving just for her. Phoebe smiled and waved back with all her heart. She knew her tiny friend would never forget their wonderful adventure together.
+		`
+        },
+        {
+            image: story07Metadata.images[11],
+            content: `
+		As Phoebe walked home beneath the glowing moon, the little star shined brightly above her, safely back where it belonged. The night felt warmer, the flowers seemed brighter, and even the gentle breeze carried a happy song. Phoebe learned that even the smallest act of kindness can light up someone's whole world. With a grateful heart and a big smile, she whispered, "Good night, little star."
+
+		The End.
+        `
+                }
+            ]
+        },
 
     {
         chapter: "Chapter 8",
