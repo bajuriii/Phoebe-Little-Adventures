@@ -47,6 +47,52 @@ input:focus-visible{
     outline-offset:4px;
 }
 
+/* ===========================
+   Animations
+=========================== */
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
 .hero{
     display:flex;
     justify-content:center;
@@ -380,6 +426,75 @@ input:focus-visible{
 .reader-audio-btn:active{
     transform:scale(.94);
 }
+
+/* ==========================
+   Story Actions (Read Aloud)
+========================== */
+
+.story-actions{
+    width:100%;
+    max-width:760px;
+    margin:28px auto 20px;
+    text-align:center;
+    padding:0 20px;
+}
+
+.btn-read-aloud{
+    display:inline-block;
+    padding:14px 28px;
+    background:linear-gradient(135deg,var(--secondary),var(--accent));
+    color:var(--text);
+    border:none;
+    border-radius:24px;
+    font-size:16px;
+    font-weight:700;
+    font-family:var(--font);
+    cursor:pointer;
+    transition:all .3s cubic-bezier(.25,.46,.45,.94);
+    box-shadow:0 8px 20px rgba(255,183,197,.3);
+    user-select:none;
+}
+
+.btn-read-aloud:hover:not(:disabled){
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(255,183,197,.4);
+}
+
+.btn-read-aloud:active:not(:disabled){
+    transform:translateY(-1px);
+}
+
+.btn-read-aloud:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .btn-read-aloud{
+        transition:none;
+    }
+
+    .btn-read-aloud:hover{
+        transform:none;
+    }
+}
+
+@media (max-width:768px){
+    .story-actions{
+        margin:20px auto 16px;
+        padding:0 16px;
+    }
+
+    .btn-read-aloud{
+        width:100%;
+        padding:16px 24px;
+        font-size:15px;
+    }
+}
+
+/* ==========================
+   Story Navigation
+========================== */
 
 .story-navigation{
     width:100%;
@@ -1002,6 +1117,189 @@ input:focus-visible{
     font-size:15px;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
     transition:.25s;
+}
+
+.search-box input:focus{
+    outline:none;
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+
+/* ==========================
+   LOADING STATES
+========================== */
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Loading skeleton for images */
+.book-cover img:not([src*="placeholder"]) {
+    position: relative;
+}
+
+.book-cover img.loading {
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Loading state for story page */
+.book.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+#story-image.loading {
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Fade in animation for images */
+.book-cover img,
+#story-image {
+    animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Button loading state */
+.btn-primary:disabled,
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Skeleton card loader */
+.book-card.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+    pointer-events: none;
+}
+
+.book-card.skeleton .book-cover img,
+.book-card.skeleton h3,
+.book-card.skeleton p {
+    visibility: hidden;
+}
+
+/* Progress bar animation */
+.reader-progress-fill {
+    background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--primary),
+        var(--accent)
+    );
+    background-size: 200% 100%;
+    animation: progress-shimmer 2s infinite;
+}
+
+@keyframes progress-shimmer {
+    0% {
+        background-position: 0% center;
+    }
+    50% {
+        background-position: 100% center;
+    }
+    100% {
+        background-position: 0% center;
+    }
+}
+
+/* Smooth transitions for interactive elements */
+button,
+a,
+.book-card,
+.favorite-btn {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================
+   PERFORMANCE OPTIMIZATION
+========================== */
+
+/* Optimize paint performance */
+.book,
+.book-card {
+    will-change: transform;
+}
+
+button:active {
+    will-change: transform;
+}
+
+/* GPU acceleration for smooth animations */
+.book::before,
+.book::after {
+    transform: translateZ(0);
+}
+
+.book-card:hover {
+    transform: translateY(-8px) translateZ(0);
+}
+
+/* ==========================
+   PRINT STYLES
+========================== */
+
+@media print {
+    .navbar,
+    .story-navigation,
+    .reading-stats,
+    .search-box,
+    .coming-soon,
+    #empty-favorites {
+        display: none;
+    }
+
+    .book {
+        max-width: 100%;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    body {
+        background: white;
+    }
+
+    .reader-progress-fill {
+        display: none;
+    }
 }
 
 .search-box input:focus{

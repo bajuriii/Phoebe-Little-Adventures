@@ -1,26 +1,39 @@
 // ===========================
-// URL PARAMETER
+// URL PARAMETER & VALIDATION
 // ===========================
 
 const params = new URLSearchParams(window.location.search);
-const savedPage = localStorage.getItem("lastPage");
 let currentStory = Number(params.get("id"));
 let currentPage = Number(params.get("page"));
 
-if (isNaN(currentStory)) {
-    currentStory = savedPage ? Number(savedPage) : 0;
-}
-
-if (isNaN(currentPage)) {
-    currentPage = 0;
-}
-
-if (currentStory < 0 || currentStory >= storyPages.length) {
+// Validate story data exists
+if (!Array.isArray(storyPages) || storyPages.length === 0) {
+    console.error("Story data not loaded properly");
     currentStory = 0;
-}
-
-if (currentPage < 0 || currentPage >= getCurrentStoryPages().length) {
     currentPage = 0;
+} else {
+    // Get last viewed story or default to first
+    const savedPage = StorageManager.getLastPage();
+    if (isNaN(currentStory)) {
+        currentStory = (savedPage >= 0 && savedPage < storyPages.length) ? savedPage : 0;
+    }
+
+    // Validate current page
+    if (isNaN(currentPage)) {
+        currentPage = 0;
+    }
+
+    // Clamp story index to valid range
+    if (currentStory < 0 || currentStory >= storyPages.length) {
+        console.warn(`Invalid story ID: ${currentStory}, defaulting to 0`);
+        currentStory = 0;
+    }
+
+    // Clamp page index to valid range
+    if (currentPage < 0 || currentPage >= getCurrentStoryPages().length) {
+        console.warn(`Invalid page ID: ${currentPage}, defaulting to 0`);
+        currentPage = 0;
+    }
 }
 
 // ===========================
@@ -36,6 +49,30 @@ const pageNumberElement = document.getElementById("page-number");
 const readerProgressFill = document.getElementById("reader-progress-fill");
 const prevButton = document.getElementById("prev-btn");
 const nextButton = document.getElementById("next-btn");
+const readAloudButton = document.getElementById("read-aloud-btn");
+
+// Validate all required DOM elements exist
+const requiredElements = {
+    book,
+    titleElement,
+    imageElement,
+    contentElement,
+    pageNumberElement,
+    readerProgressFill,
+    prevButton,
+    nextButton,
+    readAloudButton
+};
+
+const missingElements = Object.entries(requiredElements)
+    .filter(([name, el]) => !el)
+    .map(([name]) => name);
+
+if (missingElements.length > 0) {
+    const error = `Cannot initialize story page: Missing elements [${missingElements.join(', ')}]`;
+    console.error("Missing required DOM elements:", missingElements);
+    throw new Error(error);
+}
 
 // ===========================
 // CONFIG
@@ -49,68 +86,145 @@ const reducedMotion = window.matchMedia(
 
 let isAnimating = false;
 
-function getCurrentStoryPages() {
-    const story = storyPages[currentStory];
+/**
+ * Preload an image to cache for smoother page turns
+ * @param {string} src - Image source URL
+ */
+function preloadImage(src) {
+    if (!src) return;
+    const img = new Image();
+    img.src = src;
+}
 
-    return story.pages || [story];
+function getCurrentStoryPages() {
+    try {
+        const story = storyPages[currentStory];
+        
+        if (!story) {
+            console.error(`Story at index ${currentStory} not found`);
+            return [];
+        }
+
+        // Return pages array if it exists, otherwise wrap the story as a single page
+        return story.pages || [story];
+    } catch (error) {
+        console.error("Error getting story pages:", error);
+        return [];
+    }
 }
 
 function getPageImage(story, page) {
-    if (story.metadata) {
-        return `${story.metadata.assetPath}/${page.image}`;
-    }
+    try {
+        if (!page || !page.image) {
+            console.warn("Page or image data missing");
+            return "images/placeholder.png"; // Fallback image
+        }
 
-    return page.image;
+        if (story.metadata && story.metadata.assetPath) {
+            return `${story.metadata.assetPath}/${page.image}`;
+        }
+
+        return page.image;
+    } catch (error) {
+        console.error("Error getting page image:", error);
+        return "images/placeholder.png";
+    }
 }
 
 function renderStory() {
-    const story = storyPages[currentStory];
-    const storyPagesList = getCurrentStoryPages();
-    const page = storyPagesList[currentPage];
-    const readingPercent =
-        ((currentPage + 1) / storyPagesList.length) * 100;
+    try {
+        const story = storyPages[currentStory];
+        
+        if (!story) {
+            console.error(`Story ${currentStory} not found`);
+            return;
+        }
 
-    window.scrollTo(0, 0);
-    titleElement.textContent = story.title;
-    titleElement.hidden = currentPage !== 0;
-    imageElement.src = getPageImage(story, page);
-    imageElement.alt =
-        `${story.title} page ${currentPage + 1}`;
-    contentElement.textContent = page.content;
-    pageNumberElement.textContent =
-        `${currentPage + 1} / ${storyPagesList.length}`;
-    readerProgressFill.style.width =
-        `${readingPercent}%`;
-    prevButton.disabled = currentPage === 0;
-    nextButton.disabled = currentPage === storyPagesList.length - 1;
-    saveProgress();
-    updateReadingProgress();
+        const storyPagesList = getCurrentStoryPages();
+        
+        if (storyPagesList.length === 0) {
+            console.error("No pages available for story");
+            return;
+        }
+
+        // Ensure currentPage is within bounds
+        if (currentPage >= storyPagesList.length) {
+            currentPage = storyPagesList.length - 1;
+        }
+
+        const page = storyPagesList[currentPage];
+        
+        if (!page) {
+            console.error(`Page ${currentPage} not found in story`);
+            return;
+        }
+
+        const readingPercent = ((currentPage + 1) / storyPagesList.length) * 100;
+
+        window.scrollTo(0, 0);
+
+        // Update DOM elements safely
+        if (titleElement) titleElement.textContent = story.title || "Untitled";
+        if (titleElement) titleElement.hidden = currentPage !== 0;
+        
+        if (imageElement) {
+            imageElement.src = getPageImage(story, page);
+            imageElement.alt = `${story.title} page ${currentPage + 1}`;
+            // Add error handling for missing images
+            imageElement.onerror = () => {
+                imageElement.src = "images/placeholder.png";
+            };
+        }
+        
+        if (contentElement) contentElement.textContent = page.content || "";
+        if (pageNumberElement) pageNumberElement.textContent = `${currentPage + 1} / ${storyPagesList.length}`;
+        if (readerProgressFill) readerProgressFill.style.width = `${readingPercent}%`;
+
+        // Update speech synthesis text for read-aloud feature
+        if (speechManager && contentElement) {
+            speechManager.setText(contentElement.textContent);
+            speechManager.reset(); // Reset any ongoing narration
+        }
+
+        // Update progress bar ARIA attributes
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+            progressBar.setAttribute('aria-valuenow', Math.round(readingPercent));
+        }
+
+        // Update buttons
+        if (prevButton) prevButton.disabled = currentPage === 0;
+        if (nextButton) nextButton.disabled = currentPage === storyPagesList.length - 1;
+
+        // Preload next page image for smoother navigation
+        if (currentPage < storyPagesList.length - 1) {
+            const nextPageImage = getPageImage(story, storyPagesList[currentPage + 1]);
+            preloadImage(nextPageImage);
+        }
+
+        saveProgress();
+        updateReadingProgress();
+    } catch (error) {
+        console.error("Error rendering story:", error);
+    }
 }
 
 function saveProgress() {
     try {
-        localStorage.setItem("lastPage", currentStory);
+        StorageManager.setLastPage(currentStory);
     } catch (error) {
         console.warn("Unable to save reading progress.", error);
     }
 }
 
 function getReadingProgress() {
-    return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+    return StorageManager.getReadingProgress();
 }
 
 function saveReadingProgress(percent) {
     try {
-        const readingProgress = getReadingProgress();
-        const savedProgress = readingProgress[currentStory] || 0;
-
-        readingProgress[currentStory] =
-            Math.max(savedProgress, percent);
-
-        localStorage.setItem(
-            PROGRESS_KEY,
-            JSON.stringify(readingProgress)
-        );
+        const validPercent = Math.min(Math.max(percent, 0), 100);
+        StorageManager.setStoryProgress(currentStory, validPercent);
     } catch (error) {
         console.warn("Unable to save reading progress.", error);
     }
@@ -143,6 +257,11 @@ function updateReadingProgress() {
 }
 
 function nextPage() {
+    // Stop any ongoing narration when navigating
+    if (speechManager) {
+        speechManager.stop();
+    }
+
     const storyPagesList = getCurrentStoryPages();
 
     if (isAnimating) {
@@ -159,6 +278,11 @@ function nextPage() {
 }
 
 function previousPage() {
+    // Stop any ongoing narration when navigating
+    if (speechManager) {
+        speechManager.stop();
+    }
+
     if (isAnimating) {
         return;
     }
@@ -215,4 +339,18 @@ window.addEventListener(
     updateReadingProgress
 );
 
-renderStory();
+// ===========================
+// SPEECH SYNTHESIS INTEGRATION
+// ===========================
+
+// Initialize speech manager with the read-aloud button
+if (speechManager && readAloudButton) {
+    speechManager.init(readAloudButton);
+}
+
+// Only render if we have valid data
+if (storyPages && storyPages.length > 0) {
+    renderStory();
+} else {
+    console.error("Story pages data not loaded. Make sure story-data.js is loaded before story.js");
+}

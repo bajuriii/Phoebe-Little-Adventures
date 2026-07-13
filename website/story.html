@@ -25,31 +25,45 @@
 </nav>
 
 <main class="story-page">
-    <div class="book">
-        <div class="book-image">
+    <article class="book" role="doc-chapter">
+        <figure class="book-image">
             <img
                 id="story-image"
                 src="images/phoebe.png"
                 alt="Phoebe">
-        </div>
+        </figure>
 
-        <div class="book-text">
+        <section class="book-text">
             <h1 id="story-title">
                 Phoebe Meets The Rainbow
             </h1>
 
             <div class="reader-action-slot" aria-hidden="true"></div>
 
-            <p id="story-content">
+            <p id="story-content" role="doc-part">
                 One sunny morning, Phoebe saw a beautiful rainbow after the rain.
                 She became curious. She wondered where rainbows come from...
             </p>
+        </section>
+
+        <div class="story-actions">
+            <button
+                id="read-aloud-btn"
+                class="btn-read-aloud"
+                aria-label="Read aloud - narrate the current page"
+                title="Read Aloud (Double-click or click to toggle)">
+                🔊 Read Aloud
+            </button>
         </div>
 
-        <div class="story-navigation">
+        <footer class="story-navigation">
             <div
                 class="reader-progress"
-                aria-hidden="true">
+                aria-hidden="true"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                id="progress-bar">
                 <div
                     class="reader-progress-fill"
                     id="reader-progress-fill">
@@ -59,7 +73,7 @@
             <button
                 id="prev-btn"
                 class="btn-secondary"
-                aria-label="Read previous story"
+                aria-label="Read previous page (← or Backspace)"
                 disabled>
                 ← Previous
             </button>
@@ -67,18 +81,19 @@
             <div
                 class="page-number"
                 id="page-number"
-                aria-live="polite">
+                aria-live="polite"
+                aria-label="Current page">
                 Page 1 of 2
             </div>
 
             <button
                 id="next-btn"
                 class="btn-primary"
-                aria-label="Read next story">
+                aria-label="Read next page (→ or Space)">
                 Next →
             </button>
-        </div>
-    </div>
+        </footer>
+    </article>
 </main>
 
 <footer class="footer">
@@ -87,8 +102,13 @@
     </p>
 </footer>
 
+<script src="js/storage.js"></script>
 <script src="js/story-data.js"></script>
+<script src="js/speech.js"></script>
 <script src="js/story.js"></script>
+<script src="js/keyboard.js"></script>
+<script src="js/touch.js"></script>
+<script src="js/sw-register.js"></script>
 
 </body>
 
