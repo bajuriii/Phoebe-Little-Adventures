@@ -50,6 +50,14 @@ function getCurrentStoryPages() {
     return story.pages || [story];
 }
 
+function getPageImage(story, page) {
+    if (story.metadata) {
+        return `${story.metadata.assetPath}/${page.image}`;
+    }
+
+    return page.image;
+}
+
 function renderStory() {
     const story = storyPages[currentStory];
     const storyPagesList = getCurrentStoryPages();
@@ -58,7 +66,7 @@ function renderStory() {
     window.scrollTo(0, 0);
     chapterElement.textContent = story.chapter;
     titleElement.textContent = story.title;
-    imageElement.src = page.image;
+    imageElement.src = getPageImage(story, page);
     imageElement.alt =
         `${story.title} page ${currentPage + 1}`;
     contentElement.textContent = page.content;

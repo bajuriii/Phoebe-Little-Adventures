@@ -1,20 +1,40 @@
 {
   "id": 7,
   "slug": "the-lost-little-star",
+
   "title": "The Lost Little Star",
   "subtitle": "A bedtime story about kindness and friendship.",
+
   "series": "Phoebe Little Adventures",
   "version": "1.0.0",
+
+  "author": "Nefrando Taurus",
+  "illustrator": "AI Assisted",
+
   "language": "en",
+
+  "publishedDate": "2026-07-13",
+
+  "status": "published",
+
   "targetAge": {
     "min": 3,
     "max": 6
   },
+
+  "readingLevel": "Level 1",
+
   "pages": 12,
+
+  "readingTime": "5 minutes",
+
+  "assetPath": "images/stories/story-07-the-lost-little-star",
+
   "cover": "cover.webp",
+
   "thumbnail": "cover.webp",
+
   "images": [
-    "cover.webp",
     "page-01.webp",
     "page-02.webp",
     "page-03.webp",
@@ -28,19 +48,25 @@
     "page-11.webp",
     "page-12.webp"
   ],
+
   "category": [
     "Adventure",
-    "Bedtime",
-    "Kindness"
+    "Bedtime"
   ],
+
+  "theme": [
+    "Kindness",
+    "Friendship",
+    "Helping Others"
+  ],
+
   "tags": [
     "phoebe",
     "star",
-    "friendship",
+    "bedtime",
     "kindness",
-    "bedtime"
+    "friendship"
   ],
-  "moral": "Even the smallest act of kindness can light up someone's world.",
-  "readingTime": "5 minutes",
-  "status": "published"
+
+  "moral": "Even the smallest act of kindness can light up someone's world."
 }
